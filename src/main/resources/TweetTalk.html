@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Chat</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+</head>
+<body>
+<h1>WebSocket Chat</h1>
+
+<div id="chat">
+    <ul id="messages"></ul>
+    <input type="text" id="messageInput" placeholder="Enter your message">
+    <button id="sendButton">Send</button>
+</div>
+
+<script>
+        $(function () {
+            var senderName = prompt("Please enter your name:");
+
+            if (!senderName) {
+                senderName = "Guest"; // Default to "Guest" if no name is provided
+            }
+
+            var stompClient = Stomp.over(new SockJS('http://localhost:8080/chat'));
+
+            stompClient.connect({}, function (frame) {
+                stompClient.subscribe('/topic/publicChat', function (message) {
+                    showMessage(JSON.parse(message.body));
+                });
+            });
+
+            function showMessage(message) {
+                $("#messages").append("<li><strong>" + message.sender + ":</strong> " + message.content + "</li>");
+            }
+
+            $("#sendButton").click(function () {
+                var messageContent = $("#messageInput").val();
+                stompClient.send("/app/chatMessage", {}, JSON.stringify({
+                    content: messageContent,
+                    sender: senderName
+                }));
+                $("#messageInput").val("");
+            });
+        });
+    </script>
+</body>
+</html>
