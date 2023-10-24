@@ -7,7 +7,7 @@
             font-family: Arial, sans-serif;
         }
         #chat {
-            max-width: 400px;
+            max-width: 80%;
             margin: 0 auto;
             padding: 20px;
             border: 1px solid #ccc;
@@ -24,7 +24,7 @@
         #messageInput, #nameInput {
             width: 100%;
             padding: 5px;
-            margin: 5px 0;
+            margin: 0px 10px;
             border: 1px solid #ccc;
             border-radius: 3px;
         }
@@ -62,12 +62,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 </head>
 <body>
-<h1>WebSocket Chat</h1>
+<h1 style="text-align: center;">Tweet Talk</h1>
+
 
 <div id="chat">
     <ul id="messages"></ul>
+    <div style="display:flex ; justify-content : space-between ; height : 2 rem">
     <input type="text" id="messageInput" placeholder="Enter your message">
     <button id="sendButton">Send</button>
+    </div>
 </div>
 
 <script>
@@ -87,7 +90,11 @@
             });
 
             function showMessage(message) {
-                $("#messages").append("<li><strong>" + message.sender + ":</strong> " + message.content + "</li>");
+                var messageClass = "other-message";
+                if(message.sender === senderName) {
+                    messageClass = "my-message";
+                }
+                $("#messages").append("<li class='" + messageClass + "'><strong>" + message.sender + ":</strong> " + message.content + "</li>");
             }
 
             $("#sendButton").click(function () {
