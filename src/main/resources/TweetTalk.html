@@ -79,7 +79,7 @@
             senderName = "Guest"; // Default to "Guest" if no name is provided
         }
 
-        var stompClient = Stomp.over(new SockJS('http://localhost:8080/chat'));
+        var stompClient = Stomp.over(new SockJS('https://tweet-talk-server.onrender.com/chat'));
 
         stompClient.connect({}, function (frame) {
             stompClient.subscribe('/topic/publicChat', function (message) {
