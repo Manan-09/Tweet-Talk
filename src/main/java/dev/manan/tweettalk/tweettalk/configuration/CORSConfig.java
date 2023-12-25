@@ -9,7 +9,7 @@ public class CORSConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/chat/**")  // Adjust the URL pattern as needed
-                .allowedOrigins("http://localhost:63342")
+                .allowedOrigins("https://manan-09.github.io")
                 .allowedMethods("GET", "POST")
                 .allowedHeaders("*")
                 .allowCredentials(true);
